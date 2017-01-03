@@ -77,15 +77,20 @@ function getOwnedGames(Callback) {
 function getTLCList(Callback) {
     var CurrentDate, List;
     CurrentDate = new Date();
+    if (CurrentDate.getMonth() + 1 < 10) {
+        CurrentDate = CurrentDate.getFullYear() + "-0" + (CurrentDate.getMonth() + 1);
+    } else {
+        CurrentDate = CurrentDate.getFullYear() + "-" + (CurrentDate.getMonth() + 1);
+    }
     GM_xmlhttpRequest({
         method: "GET",
-        url: "https://backlog-deepness.rhcloud.com/themes/2017-06" /*+ CurrentDate.getFullYear() + "-" + (CurrentDate.getMonth() + 1)*/,
+        url: "https://backlog-deepness.rhcloud.com/themes/" + CurrentDate,
         onload: function(Response) {
             List = (new DOMParser()).parseFromString(Response.responseText, "text/html").querySelector("[id*='theme-list']");
             if (List) {
                 rhBLAEO.Storage.TLCList = List.href.split("/posts/")[1];
+                GM_setValue("rhBLAEO", rhBLAEO);
             }
-            GM_setValue("rhBLAEO", rhBLAEO);
             Callback();
         },
     });
