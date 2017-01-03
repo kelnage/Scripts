@@ -84,7 +84,7 @@ function getTLCList(Callback) {
     }
     GM_xmlhttpRequest({
         method: "GET",
-        url: "https://backlog-deepness.rhcloud.com/themes/" + CurrentDate,
+        url: "/themes/" + CurrentDate,
         onload: function(Response) {
             List = (new DOMParser()).parseFromString(Response.responseText, "text/html").querySelector("[id*='theme-list']");
             if (List) {
