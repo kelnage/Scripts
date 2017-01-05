@@ -6,6 +6,15 @@ This script adds some cool features to [BLAEO](https://backlog-deepness.rhcloud.
 
 You must have [Tampermonkey](https://tampermonkey.net/) or [Greasemonkey](http://www.greasespot.net/) installed. Then click [**here**](https://github.com/revilheart/Scripts/raw/master/rhBLAEO/rhBLAEO.user.js) and you should be prompted to install the script.
 
+## Compatibility
+
+Tested and fully working in the latest version of:
+
+* Google Chrome
+* Mozilla Firefox
+* Opera
+* Microsoft Edge
+
 ## Features
 
 ### Settings Menu
