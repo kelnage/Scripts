@@ -30,11 +30,8 @@ function PermanentUserNotes(Context, Username, SteamID) {
     PUNButton = Context.lastElementChild.firstElementChild;
     PUNBox = PUNButton.nextElementSibling;
     PUNNotes = PUNBox.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling;
-    Notes = "";
     for (I = 0, N = rhSGST.Storage.Users.length; I < N && SteamID != rhSGST.Storage.Users[I].SteamID; ++I);
-    if (I < N) {
-        Notes = rhSGST.Storage.Users[I].Notes;
-    }
+    Notes = I < N ? rhSGST.Storage.Users[I].Notes : "";
     PUNButton.addEventListener("click", function() {
         PUNBox.style.display = "block";
         PUNNotes.focus();
@@ -49,18 +46,9 @@ function PermanentUserNotes(Context, Username, SteamID) {
             PUNSaving.classList.toggle("is-hidden");
             for (I = 0, N = rhSGST.Storage.Users.length; I < N && SteamID != rhSGST.Storage.Users[I].SteamID; ++I);
             if (I < N) {
-                if (PUNNotes.value) {
-                    rhSGST.Storage.Users[I].Notes = PUNNotes.value;
-                } else if (!rhSGST.Storage.Users[I].Tags && !rhSGST.Storage.Users[I].Whitelisted && !rhSGST.Storage.Users[I].Blacklisted) {
-                    rhSGST.Storage.Users.splice(I, 1);
-                }
-            } else if (PUNNotes.value) {
-                rhSGST.Storage.Users.push({
-                    Username: Username,
-                    SteamID: SteamID,
-                    Notes: PUNNotes.value,
-                });
-            }
+                if (PUNNotes.value) rhSGST.Storage.Users[I].Notes = PUNNotes.value;
+                else if (!rhSGST.Storage.Users[I].Tags && !rhSGST.Storage.Users[I].Whitelisted && !rhSGST.Storage.Users[I].Blacklisted) rhSGST.Storage.Users.splice(I, 1);
+            } else if (PUNNotes.value) rhSGST.Storage.Users.push({ Username: Username, SteamID: SteamID, Notes: PUNNotes.value });
             Notes = PUNNotes.value;
             GM_setValue("rhSGST", rhSGST);
             PUNSave.classList.toggle("is-hidden");
@@ -68,12 +56,6 @@ function PermanentUserNotes(Context, Username, SteamID) {
             PUNBox.style.display = "none";
         }
     });
-    PUNSaving.nextElementSibling.lastElementChild.addEventListener("click", function() {
-        PUNBox.style.display = "none";
-    });
-    document.addEventListener("click", function(Event) {
-        if (Event.target == PUNBox) {
-            PUNBox.style.display = "none";
-        }
-    });
+    PUNSaving.nextElementSibling.lastElementChild.addEventListener("click", function() { PUNBox.style.display = "none"; });
+    document.addEventListener("click", function(Event) { if (Event.target == PUNBox) PUNBox.style.display = "none"; });
 }
