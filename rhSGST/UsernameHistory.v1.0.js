@@ -22,18 +22,8 @@ function UsernameHistory(Context, Username, SteamID) {
             UHContainer = Context.nextElementSibling;
             UHButton = UHContainer.firstElementChild;
             UHBox = UHButton.nextElementSibling;
-            UHButton.addEventListener("click", function() {
-                if (UHBox.style.display == "none") {
-                    UHBox.style.display = "block";
-                } else {
-                    UHBox.style.display = "none";
-                }
-            });
-            document.addEventListener("click", function(Event) {
-                if (UHBox.style.display == "block" && !UHContainer.contains(Event.target)) {
-                    UHBox.style.display = "none";
-                }
-            });
+            UHButton.addEventListener("click", function() { UHBox.style.display = UHBox.style.display == "none" ? "block" : "none"; });
+            document.addEventListener("click", function(Event) { if (UHBox.style.display == "block" && !UHContainer.contains(Event.target)) UHBox.style.display = "none"; });
         },
     });
 }
