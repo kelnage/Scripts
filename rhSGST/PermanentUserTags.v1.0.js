@@ -5,7 +5,6 @@ function PermanentUserTags() {
         "    color: inherit;" +
         "    font-size: 10px;" +
         "    font-weight: bold;" +
-        "    line-height: normal;" +
         "    vertical-align: middle;" +
         "}" +
         ".PUTDisplay * {" +
@@ -22,21 +21,21 @@ function PermanentUserTags() {
     document.body.insertAdjacentHTML(
         "beforeend",
         "<div style=\"background-color: rgba(60, 66, 77, 0.85); display: none; height: 100%; left: 0; position: fixed; top: 0; width: 100%; z-index: 999;\">" +
-        "    <div class=\"popup\" style=\"display: block; font: 12px Arial, sans-serif; left: 0; margin: 64px auto; position: fixed; right: 0; width: 300px;\">" +
-        "        <i class=\"popup__icon fa fa-tag\" style=\"color: rgb(50, 72, 98); font-size: 48px; height: 48px; line-height: normal; margin-bottom: 20px; width: 48px;\"></i>" +
+        "    <div class=\"popup\" style=\"display: block; left: 0; margin: 64px auto; position: fixed; right: 0; width: 300px;\">" +
+        "        <i class=\"popup__icon fa fa-tag\" style=\"height: 48px; width: 48px;\"></i>" +
         "        <p class=\"popup__heading\">" +
         "            Edit user tags for <span class=\"popup__heading__bold\"></span>:" +
         "        </p>" +
-        "        <input type=\"text\" style=\"display: block; font-size: 12px;\">" +
+        "        <input type=\"text\" style=\"display: block;\">" +
         "        <div class=\"form__input-description\" style=\"margin-bottom: 15px; margin-top: 5px; text-align: left; \">Use commas to separate tags, for example: Tag1,Tag2,...</div>" +
         "        <div class=\"form__submit-button\">" +
-        "            <i class=\"fa fa-check-circle\" style=\"color: inherit; margin: 0;\"></i> Save Tags" +
+        "            <i class=\"fa fa-check-circle\"></i> Save Tags" +
         "        </div>" +
         "        <div class=\"form__saving-button is-disabled is-hidden\">" +
-        "            <i class=\"fa fa-refresh fa-spin\" style=\"color: inherit; margin: 0;\"></i> Please wait..." +
+        "            <i class=\"fa fa-refresh fa-spin\"></i> Please wait..." +
         "        </div>" +
-        "        <p class=\"popup__actions\" style=\"line-height: normal;\">" +
-        "            <a href=\"/account#rhSGST\" style=\"color: inherit;\">Manage</a>" +
+        "        <p class=\"popup__actions\">" +
+        "            <a href=\"/account#rhSGST\">Manage</a>" +
         "            <span>Close</span>" +
         "        </p>" +
         "    </div>" +
@@ -55,8 +54,8 @@ function PermanentUserTags() {
             PUTSaving.classList.toggle("is-hidden");
             editPUTTags(function() {
                 GM_setValue("rhSGST", rhSGST);
-                PUTSave.classList.toggle("is-hidden");
                 PUTSaving.classList.toggle("is-hidden");
+                PUTSave.classList.toggle("is-hidden");
                 closePUTBox();
             });
         }
@@ -66,12 +65,12 @@ function PermanentUserTags() {
 }
 
 function closePUTBox() {
-    PUTTags.value = "";
-    PUTTags.removeAttribute("data-value");
     if (MTMerge) {
         MTMerge.parentNode.parentNode.parentNode.remove();
         MTMerge = null;
     } else PUTUsernames = [];
+    PUTTags.value = "";
+    PUTTags.setAttribute("data-value", "");
     PUTBox.style.display = "none";
 }
 
@@ -118,7 +117,7 @@ function editPUTTags(Callback, I) {
                 method: "GET",
                 url: "/user/" + PUTUsernames[I],
                 onload: function(Response) {
-                    rhSGST.Storage.Users.push({ Username: PUTUsernames[I], SteamID: (new DOMParser()).parseFromString(Response.responseText, "text/html").getElementsByClassName("sidebar__shortcut-inner-wrap")[0].lastElementChild.href.split("profiles/")[1], Tags: PUTTags.value });
+                    rhSGST.Storage.Users.push({ Username: PUTUsernames[I], SteamID: (new DOMParser()).parseFromString(Response.responseText, "text/html").getElementsByClassName("sidebar__shortcut-inner-wrap")[0].lastElementChild.href.split("/profiles/")[1], Tags: PUTTags.value });
                     setPUTDisplay(PUTUsernames[I], PUTTags.value);
                     editPUTTags(Callback, I + 1);
                 },
@@ -129,15 +128,11 @@ function editPUTTags(Callback, I) {
 
 function setPUTDisplay(Username, Tags) {
     var I, PUTDisplay;
+    Tags = Tags ? "<span>" + Tags.replace(/,/g, "</span><span>") + "</span>" : "";
     I = Users[Username].length - 1;
     while (I >= 0) {
         PUTDisplay = Users[Username][I--].nextElementSibling.lastElementChild;
-        if (Tags) {
-            PUTDisplay.innerHTML = "<span>" + Tags.replace(/,/g, "</span><span>") + "</span>";
-            PUTDisplay.setAttribute("data-value", Tags);
-        } else {
-            PUTDisplay.innerHTML = "";
-            PUTDisplay.removeAttribute("data-value");
-        }
+        PUTDisplay.innerHTML = Tags;
+        PUTDisplay.setAttribute("data-value", Tags);
     }
 }
