@@ -127,12 +127,12 @@ function editPUTTags(Callback, I) {
 }
 
 function setPUTDisplay(Username, Tags) {
-    var I, PUTDisplay;
-    Tags = Tags ? "<span>" + Tags.replace(/,/g, "</span><span>") + "</span>" : "";
+    var I, TagsHTML, PUTDisplay;
+    TagsHTML = Tags ? "<span>" + Tags.replace(/,/g, "</span><span>") + "</span>" : "";
     I = Users[Username].length - 1;
     while (I >= 0) {
         PUTDisplay = Users[Username][I--].nextElementSibling.lastElementChild;
-        PUTDisplay.innerHTML = Tags;
+        PUTDisplay.innerHTML = TagsHTML;
         PUTDisplay.setAttribute("data-value", Tags);
     }
 }
