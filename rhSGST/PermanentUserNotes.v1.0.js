@@ -32,7 +32,7 @@ function PermanentUserNotes(Context, Username, SteamID) {
     PUNNotes = PUNBox.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling;
     I = rhSGST.Storage.Users.length - 1;
     while (I >= 0 && SteamID != rhSGST.Storage.Users[I].SteamID) --I;
-    Notes = I >= 0 ? rhSGST.Storage.Users[I].Notes : "";
+    Notes = I >= 0 && rhSGST.Storage.Users[I].Notes ? rhSGST.Storage.Users[I].Notes : "";
     PUNButton.addEventListener("click", function() {
         PUNBox.style.display = "block";
         PUNNotes.focus();
