@@ -1,5 +1,5 @@
 function PermanentUserNotes(Context, Username, SteamID) {
-    var I, Notes, PUNButton, PUNBox, PUNNotes, PUNSave, PUNSaving;
+    var I, PUNButton, PUNBox, PUNNotes, PUNSave, PUNSaving;
     Context.insertAdjacentHTML(
         "beforeend",
         "<div>" +
@@ -32,17 +32,17 @@ function PermanentUserNotes(Context, Username, SteamID) {
     PUNNotes = PUNBox.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling;
     I = rhSGST.Storage.Users.length - 1;
     while (I >= 0 && SteamID != rhSGST.Storage.Users[I].SteamID) --I;
-    Notes = I >= 0 && rhSGST.Storage.Users[I].Notes ? rhSGST.Storage.Users[I].Notes : "";
+    PUNNotes.setAttribute("data-value", I >= 0 && rhSGST.Storage.Users[I].Notes ? rhSGST.Storage.Users[I].Notes : "");
     PUNButton.addEventListener("click", function() {
         PUNBox.style.display = "block";
         PUNNotes.focus();
-        PUNNotes.value = Notes;
+        PUNNotes.value = PUNNotes.getAttribute("data-value");
     });
     PUNSave = PUNNotes.nextElementSibling;
     PUNSaving = PUNSave.nextElementSibling;
     PUNSave.addEventListener("click", function() {
         PUNNotes.value = PUNNotes.value.trim();
-        if (PUNNotes.value != Notes) {
+        if (PUNNotes.value != PUNNotes.getAttribute("data-value")) {
             PUNSave.classList.toggle("is-hidden");
             PUNSaving.classList.toggle("is-hidden");
             I = rhSGST.Storage.Users.length - 1;
@@ -54,10 +54,10 @@ function PermanentUserNotes(Context, Username, SteamID) {
                     if (!rhSGST.Storage.Users[I].Tags && !rhSGST.Storage.Users[I].Whitelisted && !rhSGST.Storage.Users[I].Blacklisted) rhSGST.Storage.Users.splice(I, 1);
                 }
             } else if (PUNNotes.value) rhSGST.Storage.Users.push({ Username: Username, SteamID: SteamID, Notes: PUNNotes.value });
-            Notes = PUNNotes.value;
+            PUNNotes.setAttribute("data-value", PUNNotes.value);
             GM_setValue("rhSGST", rhSGST);
-            PUNSave.classList.toggle("is-hidden");
             PUNSaving.classList.toggle("is-hidden");
+            PUNSave.classList.toggle("is-hidden");
             PUNBox.style.display = "none";
         }
     });
