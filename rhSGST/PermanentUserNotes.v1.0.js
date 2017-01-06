@@ -1,5 +1,5 @@
 function PermanentUserNotes(Context, Username, SteamID) {
-    var I, N, Notes, PUNButton, PUNBox, PUNNotes, PUNSave, PUNSaving;
+    var I, Notes, PUNButton, PUNBox, PUNNotes, PUNSave, PUNSaving;
     Context.insertAdjacentHTML(
         "beforeend",
         "<div>" +
@@ -30,8 +30,9 @@ function PermanentUserNotes(Context, Username, SteamID) {
     PUNButton = Context.lastElementChild.firstElementChild;
     PUNBox = PUNButton.nextElementSibling;
     PUNNotes = PUNBox.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling;
-    for (I = 0, N = rhSGST.Storage.Users.length; I < N && SteamID != rhSGST.Storage.Users[I].SteamID; ++I);
-    Notes = I < N ? rhSGST.Storage.Users[I].Notes : "";
+    I = rhSGST.Storage.Users.length - 1;
+    while (I >= 0 && SteamID != rhSGST.Storage.Users[I].SteamID) --I;
+    Notes = I >= 0 ? rhSGST.Storage.Users[I].Notes : "";
     PUNButton.addEventListener("click", function() {
         PUNBox.style.display = "block";
         PUNNotes.focus();
@@ -44,8 +45,9 @@ function PermanentUserNotes(Context, Username, SteamID) {
         if (PUNNotes.value != Notes) {
             PUNSave.classList.toggle("is-hidden");
             PUNSaving.classList.toggle("is-hidden");
-            for (I = 0, N = rhSGST.Storage.Users.length; I < N && SteamID != rhSGST.Storage.Users[I].SteamID; ++I);
-            if (I < N) {
+            I = rhSGST.Storage.Users.length - 1;
+            while (I >= 0 && SteamID != rhSGST.Storage.Users[I].SteamID) --I;
+            if (I >= 0) {
                 if (PUNNotes.value) rhSGST.Storage.Users[I].Notes = PUNNotes.value;
                 else if (!rhSGST.Storage.Users[I].Tags && !rhSGST.Storage.Users[I].Whitelisted && !rhSGST.Storage.Users[I].Blacklisted) rhSGST.Storage.Users.splice(I, 1);
             } else if (PUNNotes.value) rhSGST.Storage.Users.push({ Username: Username, SteamID: SteamID, Notes: PUNNotes.value });
