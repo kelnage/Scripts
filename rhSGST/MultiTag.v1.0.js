@@ -62,7 +62,7 @@ function checkMTUserCheckbox(MTUserCheckbox) {
     if (I > 1 && !MTButton.getAttribute("data-value")) {
         MTButton.style.cursor = "pointer";
         MTButton.style.opacity = 1;
-        MTButton.setAttribute("data-value", "");
+        MTButton.setAttribute("data-value", 1);
         MTButton.addEventListener("click", editMTTags);
     } else if (I <= 1 && MTButton.getAttribute("data-value")) {
         MTButton.style.cursor = "default";
