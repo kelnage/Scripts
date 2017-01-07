@@ -5,7 +5,6 @@ function PermanentUserTags() {
         "    color: inherit;" +
         "    font-size: 10px;" +
         "    font-weight: bold;" +
-        "    vertical-align: middle;" +
         "}" +
         ".PUTDisplay * {" +
         "    background-color: rgba(255, 255, 255, 0.5);" +
