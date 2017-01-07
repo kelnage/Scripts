@@ -32,7 +32,7 @@ function PermanentUserNotes(Context, Username, SteamID) {
     PUNNotes = PUNBox.firstElementChild.firstElementChild.nextElementSibling.nextElementSibling;
     I = rhSGST.Storage.Users.length - 1;
     while (I >= 0 && SteamID != rhSGST.Storage.Users[I].SteamID) --I;
-    PUNNotes.setAttribute("data-value", I >= 0 && rhSGST.Storage.Users[I].Notes ? rhSGST.Storage.Users[I].Notes : "");
+    PUNNotes.setAttribute("data-value", I >= 0 ? rhSGST.Storage.Users[I].Notes : "");
     PUNButton.addEventListener("click", function() {
         PUNBox.style.display = "block";
         PUNNotes.focus();
@@ -47,13 +47,8 @@ function PermanentUserNotes(Context, Username, SteamID) {
             PUNSaving.classList.toggle("is-hidden");
             I = rhSGST.Storage.Users.length - 1;
             while (I >= 0 && SteamID != rhSGST.Storage.Users[I].SteamID) --I;
-            if (I >= 0) {
-                if (PUNNotes.value) rhSGST.Storage.Users[I].Notes = PUNNotes.value;
-                else {
-                    delete rhSGST.Storage.Users[I].Notes;
-                    if (!rhSGST.Storage.Users[I].Tags && !rhSGST.Storage.Users[I].Whitelisted && !rhSGST.Storage.Users[I].Blacklisted) rhSGST.Storage.Users.splice(I, 1);
-                }
-            } else if (PUNNotes.value) rhSGST.Storage.Users.push({ Username: Username, SteamID: SteamID, Notes: PUNNotes.value });
+            if (I >= 0) rhSGST.Storage.Users[I].Notes = PUNNotes.value;
+            else rhSGST.Storage.Users.push({ Username: Username, SteamID: SteamID, Notes: PUNNotes.value, Tags: "" });
             PUNNotes.setAttribute("data-value", PUNNotes.value);
             GM_setValue("rhSGST", rhSGST);
             PUNSaving.classList.toggle("is-hidden");
