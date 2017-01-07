@@ -115,7 +115,7 @@ function editPUTTags(Callback, I) {
                     editPUTTags(Callback, I + 1);
                 },
             });
-        } else editPUTTags(Callback, I + 1);
+        }
     } else Callback();
 }
 
