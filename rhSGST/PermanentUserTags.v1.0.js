@@ -102,21 +102,15 @@ function editPUTTags(Callback, I) {
         J = rhSGST.Storage.Users.length - 1;
         while (J >= 0 && PUTUsernames[I] != rhSGST.Storage.Users[J].Username) --J;
         if (J >= 0) {
-            if (PUTTags.value) {
-                rhSGST.Storage.Users[J].Tags = MTMerge && MTMerge.checked ? rhSGST.Storage.Users[J].Tags + "," + PUTTags.value : PUTTags.value;
-                setPUTDisplay(PUTUsernames[I], rhSGST.Storage.Users[J].Tags);
-            } else {
-                delete rhSGST.Storage.Users[J].Tags;
-                if (!rhSGST.Storage.Users[J].Notes && !rhSGST.Storage.Users[J].Whitelisted && !rhSGST.Storage.Users[J].Blacklisted) rhSGST.Storage.Users.splice(J, 1);
-                setPUTDisplay(PUTUsernames[I], "");
-            }
+            rhSGST.Storage.Users[J].Tags = MTMerge && MTMerge.checked ? rhSGST.Storage.Users[J].Tags + "," + PUTTags.value : PUTTags.value;
+            setPUTDisplay(PUTUsernames[I], rhSGST.Storage.Users[J].Tags);
             editPUTTags(Callback, I + 1);
-        } else if (PUTTags.value) {
+        } else {
             GM_xmlhttpRequest({
                 method: "GET",
                 url: "/user/" + PUTUsernames[I],
                 onload: function(Response) {
-                    rhSGST.Storage.Users.push({ Username: PUTUsernames[I], SteamID: (new DOMParser()).parseFromString(Response.responseText, "text/html").getElementsByClassName("sidebar__shortcut-inner-wrap")[0].lastElementChild.href.split("/profiles/")[1], Tags: PUTTags.value });
+                    rhSGST.Storage.Users.push({ Username: PUTUsernames[I], SteamID: (new DOMParser()).parseFromString(Response.responseText, "text/html").getElementsByClassName("sidebar__shortcut-inner-wrap")[0].lastElementChild.href.split("/profiles/")[1], Notes: "", Tags: PUTTags.value });
                     setPUTDisplay(PUTUsernames[I], PUTTags.value);
                     editPUTTags(Callback, I + 1);
                 },
