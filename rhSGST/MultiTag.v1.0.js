@@ -1,5 +1,6 @@
 var MTCheckbox, MTSelect, MTButton, MTCounter, MTMerge;
-function MultiTag(Context) {
+
+function MultiTag_SG(Context) {
     var I, MTUserCheckboxes;
     Context.insertAdjacentHTML(
         "afterend",
@@ -35,10 +36,46 @@ function MultiTag(Context) {
     });
 }
 
+function MultiTag_ST(Context) {
+    var I, MTUserCheckboxes;
+    Context.insertAdjacentHTML(
+        "afterend",
+        "<div class=\"page_heading_btn\" style=\"padding: 5px 10px;\">" +
+        "    <label class=\"switch\" style=\"margin: 0;\">" +
+        "        <input type=\"checkbox\">" +
+        "        <div class=\"slider round\"></div>" +
+        "    </label>" +
+        "    <div class=\"btn_action green is_hidden\" style=\"line-height: normal; margin: 0; margin-left: 5px; padding: 0 5px;\">All</div>" +
+        "    <a style=\"margin-left: 5px; opacity: 0.5;\">" +
+        "        <i class=\"fa fa-tags\" style=\"margin: 0;\"></i>" +
+        "        <div class=\"message_count is_hidden\" style=\"display: inline-block; font-size: 11px; line-height: normal;\"></div>" +
+        "    </a>" +
+        "</div>"
+    );
+    MTCheckbox = Context.nextElementSibling.firstElementChild.firstElementChild;
+    MTSelect = MTCheckbox.parentNode.nextElementSibling;
+    MTSelect.addEventListener("click", function() {
+        if (MTSelect.textContent == "All") selectMTTags(true);
+        else selectMTTags(false);
+    });
+    MTButton = MTSelect.nextElementSibling;
+    MTCounter = MTButton.lastElementChild;
+    MTCheckbox.addEventListener("change", function() {
+        if (!MTCheckbox.checked) selectMTTags(false);
+        MTUserCheckboxes = document.getElementsByClassName("MTUserCheckbox");
+        I = MTUserCheckboxes.length - 1;
+        while (I >= 0) MTUserCheckboxes[I--].parentNode.classList.toggle("is_hidden");
+        MTSelect.classList.toggle("is_hidden");
+        MTCounter.textContent = 0;
+        MTCounter.setAttribute("data-value", 0);
+        MTCounter.classList.toggle("is_hidden");
+    });
+}
+
 function addMTUserCheckbox(Context, Username) {
     Context.insertAdjacentHTML(
         "beforebegin",
-        "<div class=\"is-hidden\" style=\"display: inline-block; margin-right: 5px;\">" +
+        "<div class=\"" + (HostName == "www.steamgifts.com" ? "is-hidden" : "is_hidden") + "\" style=\"display: inline-block; margin-right: 5px;\">" +
         "    <input class=\"MTUserCheckbox\" type=\"checkbox\" data-value=\"" + Username + "\" style=\"vertical-align: middle; width: auto;\">" +
         "</div>"
     );
@@ -49,12 +86,12 @@ function checkMTUserCheckbox(MTUserCheckbox) {
     var I, J, Username;
     Username = MTUserCheckbox.getAttribute("data-value");
     I = MTCounter.getAttribute("data-value");
-    J = PUTUsernames.indexOf(Username);
+    J = PUTUsers.indexOf(Username);
     if (MTUserCheckbox.checked && J < 0) {
-        PUTUsernames.push(Username);
+        PUTUsers.push(Username);
         ++I;
     } else if (!MTUserCheckbox.checked && J >= 0) {
-        PUTUsernames.splice(J, 1);
+        PUTUsers.splice(J, 1);
         --I;
     }
     MTCounter.textContent = I;
@@ -103,7 +140,7 @@ function editMTTags() {
         "</div>"
     );
     MTMerge = Context.nextElementSibling.firstElementChild.firstElementChild.firstElementChild;
-    PUTHeading.textContent = PUTUsernames.length - 10 > 0 ? PUTUsernames.slice(0, 10).join(", ") + ", and " + (PUTUsernames.length - 10) + " more" : PUTUsernames.slice(0, 10).join(", ");
+    PUTHeading.textContent = PUTUsers.length - 10 > 0 ? PUTUsers.slice(0, 10).join(", ") + ", and " + (PUTUsers.length - 10) + " more" : PUTUsernames.slice(0, 10).join(", ");
     PUTBox.style.display = "block";
     PUTTags.focus();
 }
