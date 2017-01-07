@@ -19,7 +19,7 @@ function addBCCLink(Chain, Parent) {
             if (SG) Chained = Chain[--I].firstElementChild.firstElementChild.nextElementSibling.firstElementChild;
             else Chained = Chain[--I].firstElementChild.className == "comment_inner" ? Chain[I].firstElementChild.firstElementChild : Chain[I].firstElementChild.nextElementSibling.firstElementChild;
             BCCLink = Chained.getElementsByClassName("BCCLink")[0];
-            if (BCCLink) BCCLink.textContent = Username;
+            if (BCCLink) BCCLink.textContent = "@" + Username;
             else Chained.insertAdjacentHTML("beforeend", "<a class=\"BCCLink\" href=\"#" + ID + "\" style=\"color: rgb(107, 122, 140); margin-left: 5px;\">@" + Username + "</a>");
         }
     }
