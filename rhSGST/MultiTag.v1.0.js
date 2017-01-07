@@ -140,7 +140,8 @@ function editMTTags() {
         "</div>"
     );
     MTMerge = Context.nextElementSibling.firstElementChild.firstElementChild.firstElementChild;
-    PUTHeading.textContent = PUTUsers.length - 10 > 0 ? PUTUsers.slice(0, 10).join(", ") + ", and " + (PUTUsers.length - 10) + " more" : PUTUsernames.slice(0, 10).join(", ");
+    if (HostName == "www.steamgifts.com") PUTHeading.textContent = PUTUsers.length - 10 > 0 ? PUTUsers.slice(0, 10).join(", ") + ", and " + (PUTUsers.length - 10) + " more" : PUTUsers.slice(0, 10).join(", ");
+    else PUTHeading.textContent = PUTUsers.length - 5 > 0 ? PUTUsers.slice(0, 5).join(", ") + ", and " + (PUTUsers.length - 5) + " more" : PUTUsers.slice(0, 5).join(", ");
     PUTBox.style.display = "block";
     PUTTags.focus();
 }
