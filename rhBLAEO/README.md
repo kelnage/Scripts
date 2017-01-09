@@ -4,12 +4,7 @@ This script adds some cool features to [BLAEO](https://backlog-deepness.rhcloud.
 
 ## Installation
 
-You must have [Tampermonkey](https://tampermonkey.net/) or [Greasemonkey](http://www.greasespot.net/) installed. Then click on one of the links below and you should be prompted to install the script.
-
-* [**Install**](https://github.com/revilheart/Scripts/raw/master/rhBLAEO/rhBLAEO.user.js)
-* [**Install (Minified)**](https://github.com/revilheart/Scripts/raw/master/rhBLAEO/rhBLAEO.Minified.user.js)
-
-The minified version is exactly the same, but it contains the entire code reduced into a single line and file. If you're using Safari, you must install the minified version for the script to work (unconfirmed). If you're using other browsers, it's up to you to choose. The only real difference is that the minified version is smaller in size, and therefore should load faster, but we're talking nanoseconds here, so you shouldn't notice it anyway.
+You must have [Tampermonkey](https://tampermonkey.net/) or [Greasemonkey](http://www.greasespot.net/) installed. Then click [**here**](https://github.com/revilheart/Scripts/raw/master/rhBLAEO/rhBLAEO.user.js) and you should be prompted to install the script.
 
 ## Compatibility
 
@@ -19,7 +14,6 @@ Tested and fully working in the latest version of:
 * Mozilla Firefox
 * Opera
 * Microsoft Edge
-* Safari (Unconfirmed)
 
 ## Features
 
